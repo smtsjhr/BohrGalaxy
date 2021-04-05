@@ -1,5 +1,5 @@
 window.addEventListener('beforeunload', (e) => {
-    window.scrollTo(2500,0);
+    window.scrollTo(3000,0);
   });
 
 let scroll_rate;
@@ -37,7 +37,7 @@ function DwitterDraw(t) {
 
 function draw() {
     x_scroll = window.scrollX/(10000 - W) - 0.5 ;
-    scroll_rate = -.01*x_scroll**3 - t_rate;
+    scroll_rate = -.0015*x_scroll - t_rate;
     x.fillStyle = 'rgba(0,0,0,1)';
     x.fillRect(0, 0, W, H);
     x.fillStyle = 'rgba(255,255,255,1)'
