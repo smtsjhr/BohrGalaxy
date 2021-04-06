@@ -1,19 +1,16 @@
-window.addEventListener('beforeunload', (e) => {
-    window.scrollTo(3000,0);
-  });
-
-let scroll_rate;
+let scroll_width = 10000;
+let x_scroll = 0;
+let scroll_start = 2500;
+let scroll_rate = 0;
 
 let W;
 let H;
-
 let scale = 1;
 let max_scale = .5;
 
 let t0 = 2;
 let t = t0;
 const t_rate = .0001;
-
 
 let fps = 60;
 let dt, startTime, now, then, elapsed;
@@ -36,8 +33,7 @@ function DwitterDraw(t) {
 }
 
 function draw() {
-    x_scroll = window.scrollX/(10000 - W) - 0.5 ;
-    scroll_rate = -.0015*x_scroll - t_rate;
+    
     x.fillStyle = 'rgba(0,0,0,1)';
     x.fillRect(0, 0, W, H);
     x.fillStyle = 'rgba(255,255,255,1)'
@@ -61,16 +57,23 @@ function throttle(newtime) {
         draw();      
     }
 }
+
+let scroll_div= document.getElementById("scroll_div");
+scroll_div.scrollLeft = scroll_start;
+scroll_div.onscroll = function(e) {
+    x_scroll = 2*scroll_div.scrollLeft/(10000 - W) - 1 ;
+    scroll_rate = 0.0009*Math.sign(x_scroll)*(x_scroll)**2 - t_rate;
+}
  
 function resize() {
-    scale = Math.min(max_scale, window.innerWidth/1920);
     W = canvas.width = window.innerWidth;
-    H = canvas.style.height = canvas.height = window.innerHeight;
+    H = canvas.height = window.innerHeight;
+    scale = Math.min(max_scale, W/1920);
 }
 
 window.onresize = function(e) {
     resize();
- }
+}
 
 resize();
 
